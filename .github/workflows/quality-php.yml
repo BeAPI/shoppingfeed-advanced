@@ -1,0 +1,29 @@
+name: Quality PHP
+
+on:
+  pull_request:
+    paths:
+      - "**.php"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: PHP quality
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          extensions: mbstring, intl #optional, setup extensions
+          tools: phpcs
+
+      - name: Check composer
+        run: composer validate
+
+      - name: Check cs
+        run: |
+          composer install -g dealerdirect/phpcodesniffer-composer-installer wp-coding-standards/wpcs
+          phpcs .
