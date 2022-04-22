@@ -54,9 +54,9 @@ class ShoppingFeedAdvanced {
 				'admin_notices',
 				function () {
 					?>
-                    <div id="message" class="notice notice-error">
-                        <p><?php esc_html_e( 'ShoppingFeed plugin must be activated', 'shopping-feed-advanced' ); ?></p>
-                    </div>
+					<div id="message" class="notice notice-error">
+						<p><?php esc_html_e( 'ShoppingFeed plugin must be activated', 'shopping-feed-advanced' ); ?></p>
+					</div>
 					<?php
 				}
 			);

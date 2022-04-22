@@ -38,7 +38,7 @@ class Options {
 					__( 'ShoppingFeed Advanced', 'shopping-feed-advanced' ),
 					'manage_options',
 					self::MENU_SLUG,
-					array( $this, 'load_setting_page' )
+					[ $this, 'load_setting_page' ]
 				);
 			}
 		);
@@ -63,8 +63,8 @@ class Options {
 			__( 'Enable EAN field', 'shopping-feed-advanced' ),
 			function () {
 				?>
-                <input type="checkbox" name="sfa_custom_fields_options[<?php echo EAN_FIELD_SLUG; ?>]"
-                       value="1" <?php checked( 1, ShoppingFeedAdvancedHelper::get_sfa_settings( EAN_FIELD_SLUG ), true ); ?> />
+				<input type="checkbox" name="sfa_custom_fields_options[<?php echo esc_attr( EAN_FIELD_SLUG ); ?>]"
+						value="1" <?php checked( 1, ShoppingFeedAdvancedHelper::get_sfa_settings( EAN_FIELD_SLUG ), true ); ?> />
 				<?php
 			},
 			'sfa_custom_fields_settings',
@@ -76,8 +76,8 @@ class Options {
 			__( 'Enable BRAND field', 'shopping-feed-advanced' ),
 			function () {
 				?>
-                <input type="checkbox" name="sfa_custom_fields_options[<?php echo BRAND_FIELD_SLUG; ?>]"
-                       value="1" <?php checked( 1, ShoppingFeedAdvancedHelper::get_sfa_settings( BRAND_FIELD_SLUG ), true ); ?> />
+				<input type="checkbox" name="sfa_custom_fields_options[<?php echo esc_attr( BRAND_FIELD_SLUG ); ?>]"
+						value="1" <?php checked( 1, ShoppingFeedAdvancedHelper::get_sfa_settings( BRAND_FIELD_SLUG ), true ); ?> />
 				<?php
 			},
 			'sfa_custom_fields_settings',
@@ -85,10 +85,10 @@ class Options {
 		);
 
 		?>
-        <div class="wrap">
+		<div class="wrap">
 			<?php settings_errors(); ?>
 
-            <form method="post" action="options.php">
+			<form method="post" action="options.php">
 				<?php
 				settings_fields( 'sfa_custom_fields' );
 				do_settings_sections( 'sfa_custom_fields_settings' );
@@ -96,28 +96,34 @@ class Options {
 				<?php
 				submit_button( __( 'Save changes', 'shopping-feed-advanced' ) );
 				?>
-            </form>
+			</form>
 
-            <form action="<?php echo admin_url( 'admin-post.php' ); ?>" style="float: right">
+			<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="float: right">
 				<?php
 				$migration = ShoppingFeedAdvancedHelper::get_last_action_data();
 				if ( ! empty( $migration ) ) {
-					echo '<h2>A migration is already exist</h2>';
+					echo sprintf(
+						'<h2>%s</h2>',
+						esc_html__( 'A migration is already running', 'shopping-feed-advanced' )
+					);
 					if ( 'pending' === $migration['status'] || 'In-progress' === $migration['status'] ) {
-						echo '<a href="#" onClick="window.location.reload();">Refresh to check progress</a>';
+						echo sprintf(
+							'<a href="#" onClick="window.location.reload();">%s</a>',
+							esc_html__( 'Refresh to check progress', 'shopping-feed-advanced' )
+						);
 					}
-					echo sprintf( '<h2>Status : <strong>%s</strong></h2>', $migration['status'] );
-					echo sprintf( '<h2>Date : <strong>%s</strong></h2>', $migration['date'] );
+					echo sprintf( '<h2>Status : <strong>%s</strong></h2>', esc_html( $migration['status'] ) );
+					echo sprintf( '<h2>Date : <strong>%s</strong></h2>', esc_html( $migration['date'] ) );
 				}
 				?>
-                <input type="hidden" name="action" value="sfa_migrate">
+				<input type="hidden" name="action" value="sfa_migrate">
 				<?php
 				if ( 'pending' !== $migration['status'] && 'in-progress' !== $migration['status'] ) {
 					submit_button( __( 'Migrate Old Data', 'shopping-feed-advanced' ) );
 				}
 				?>
-            </form>
-        </div>
+			</form>
+		</div>
 
 		<?php
 

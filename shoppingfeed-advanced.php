@@ -2,7 +2,7 @@
 /**
  * Plugin Name:     ShoppingFeed Advanced
  * Plugin URI:      https://wordpress.org/plugins/shoppingfeed/
- * Description:     Recongnize custom fields for ShoppingFeed plugin
+ * Description:     Recognize custom fields for ShoppingFeed plugin
  * Author:          Shopping-Feed
  * Author URI:      https://www.shopping-feed.com/
  * Text Domain:     shopping-feed-advanced

@@ -40,16 +40,16 @@ class Orders {
 		return $reordered_columns;
 	}
 
-// Adding custom fields meta data for each new column (example)
+	// Adding custom fields meta data for each new column (example)
 	public function custom_orders_list_column_content( $column, $post_id ) {
 		if ( $this->channel_name_meta === $column ) {
 			$sf_reference = get_post_meta( $post_id, $this->channel_name_meta, true );
-			echo ! empty( $sf_reference ) ? esc_html( $sf_reference ) : '<small>(<em>' . __( 'None', 'shopping-feed-advanced' ) . '</em>)</small>';
+			echo ! empty( $sf_reference ) ? esc_html( $sf_reference ) : '<small>(<em>' . esc_html__( 'None', 'shopping-feed-advanced' ) . '</em>)</small>';
 		}
 
 		if ( $this->sf_reference_meta === $column ) {
 			$sf_reference = get_post_meta( $post_id, $this->sf_reference_meta, true );
-			echo ! empty( $sf_reference ) ? esc_html( $sf_reference ) : '<small>(<em>' . __( 'None', 'shopping-feed-advanced' ) . '</em>)</small>';
+			echo ! empty( $sf_reference ) ? esc_html( $sf_reference ) : '<small>(<em>' . esc_html__( 'None', 'shopping-feed-advanced' ) . '</em>)</small>';
 		}
 	}
 }

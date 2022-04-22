@@ -16,7 +16,7 @@ class Order {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		}
-		if ( ! isset( $_POST['sfa_tracking_nounce'] ) || ! wp_verify_nonce( $_POST['sfa_tracking_nounce'], '_sfa_tracking_nounce' ) ) {
+		if ( empty( $_POST['sfa_tracking_nounce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sfa_tracking_nounce'] ) ), '_sfa_tracking_nounce' ) ) {
 			return;
 		}
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
@@ -24,10 +24,18 @@ class Order {
 		}
 
 		if ( isset( $_POST[ TRACKING_NUMBER_FIELD_SLUG ] ) ) {
-			update_post_meta( $post_id, TRACKING_NUMBER_FIELD_SLUG, esc_attr( $_POST[ TRACKING_NUMBER_FIELD_SLUG ] ) );
+			update_post_meta(
+				$post_id,
+				TRACKING_NUMBER_FIELD_SLUG,
+				sanitize_text_field( wp_unslash( $_POST[ TRACKING_NUMBER_FIELD_SLUG ] ) )
+			);
 		}
 		if ( isset( $_POST[ TRACKING_LINK_FIELD_SLUG ] ) ) {
-			update_post_meta( $post_id, TRACKING_LINK_FIELD_SLUG, esc_attr( $_POST[ TRACKING_LINK_FIELD_SLUG ] ) );
+			update_post_meta(
+				$post_id,
+				TRACKING_LINK_FIELD_SLUG,
+				sanitize_text_field( wp_unslash( $_POST[ TRACKING_LINK_FIELD_SLUG ] ) )
+			);
 		}
 	}
 
@@ -65,25 +73,25 @@ class Order {
 		}
 		?>
 
-        <p>
-            <label for="sfa_tracking_number">
+		<p>
+			<label for="sfa_tracking_number">
 				<?php esc_html_e( 'Tracking Number', 'shopping-feed-advanced' ); ?>
-            </label>
-            <br>
-            <input type="text" name="<?php echo TRACKING_NUMBER_FIELD_SLUG; ?>"
-                   id="<?php echo TRACKING_NUMBER_FIELD_SLUG; ?>"
-                   value="<?php echo $order->get_meta( TRACKING_NUMBER_FIELD_SLUG ); ?>">
-        </p>
-        <p>
-            <label for="sfa_tracking_link">
+			</label>
+			<br>
+			<input type="text" name="<?php echo esc_attr( TRACKING_NUMBER_FIELD_SLUG ); ?>"
+					id="<?php echo esc_attr( TRACKING_NUMBER_FIELD_SLUG ); ?>"
+					value="<?php echo esc_attr( $order->get_meta( TRACKING_NUMBER_FIELD_SLUG ) ); ?>">
+		</p>
+		<p>
+			<label for="sfa_tracking_link">
 				<?php esc_html_e( 'Tracking Link', 'shopping-feed-advanced' ); ?>
-            </label>
-            <br>
-            <input type="text" name="<?php echo TRACKING_LINK_FIELD_SLUG; ?>"
-                   id="<?php echo TRACKING_LINK_FIELD_SLUG; ?>"
-                   value="<?php echo $order->get_meta( TRACKING_LINK_FIELD_SLUG ); ?>">
-        </p>
+			</label>
+			<br>
+			<input type="text" name="<?php echo esc_attr( TRACKING_LINK_FIELD_SLUG ); ?>"
+					id="<?php echo esc_attr( TRACKING_LINK_FIELD_SLUG ); ?>"
+					value="<?php echo esc_attr( $order->get_meta( TRACKING_LINK_FIELD_SLUG ) ); ?>">
+		</p>
 		<?php
-		echo submit_button();
+		submit_button();
 	}
 }
