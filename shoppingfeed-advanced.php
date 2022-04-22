@@ -1,18 +1,18 @@
 <?php
 /**
- * Plugin Name:     ShoppingFeed Advanced
- * Plugin URI:      https://wordpress.org/plugins/shoppingfeed/
- * Description:     Recognize custom fields for ShoppingFeed plugin
- * Author:          Shopping-Feed
- * Author URI:      https://www.shopping-feed.com/
- * Text Domain:     shopping-feed-advanced
- * Domain Path:     /languages
- * Version:         6.0.7
- * Requires at least WP: 5.2
+ * Plugin Name:                   ShoppingFeed Advanced
+ * Plugin URI:                    https://wordpress.org/plugins/shoppingfeed/
+ * Description:                   Recognize custom fields for ShoppingFeed plugin
+ * Author:                        Shopping-Feed
+ * Author URI:                    https://www.shopping-feed.com/
+ * Text Domain:                   shopping-feed-advanced
+ * Domain Path:                   /languages
+ * Version:                       6.0.8
+ * Requires at least WP:          5.2
  * Requires at least WooCommerce: 3.8 (3.9/4.0)
- * Requires PHP:      5.6
- * License:         GPLv3 or later
- * License URI:     https://www.gnu.org/licenses/gpl-3.0.html
+ * Requires PHP:                  7.2
+ * License:                       GPLv3 or later
+ * License URI:                   https://www.gnu.org/licenses/gpl-3.0.html
  */
 
 namespace ShoppingFeed\ShoppingFeedWCAdvanced;

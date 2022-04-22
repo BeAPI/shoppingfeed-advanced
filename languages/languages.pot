@@ -1,19 +1,22 @@
+# Copyright (C) 2022 Shopping-Feed
+# This file is distributed under the GPLv3 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: ShoppingFeed Advanced 6.0.8\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/shoppingfeed-advanced\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-04-20T12:04:03+00:00\n"
+"POT-Creation-Date: 2022-04-22T14:08:33+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.4.0\n"
-"X-Domain: languages\n"
-
+"X-Generator: WP-CLI 2.6.0\n"
+"X-Domain: shopping-feed-advanced\n"
 
 #. Plugin Name of the plugin
+#: src/Admin/Options.php:37
+#: src/Admin/Options.php:38
 msgid "ShoppingFeed Advanced"
 msgstr ""
 
@@ -22,7 +25,7 @@ msgid "https://wordpress.org/plugins/shoppingfeed/"
 msgstr ""
 
 #. Description of the plugin
-msgid "Connection Controller Plugin for ShoppingFeed - Sell on Amazon, Ebay, Google, and 1000's of international marketplaces"
+msgid "Recognize custom fields for ShoppingFeed plugin"
 msgstr ""
 
 #. Author of the plugin
@@ -33,3 +36,145 @@ msgstr ""
 msgid "https://www.shopping-feed.com/"
 msgstr ""
 
+#: src/Admin/Options.php:55
+msgid "Options"
+msgstr ""
+
+#: src/Admin/Options.php:63
+msgid "Enable EAN field"
+msgstr ""
+
+#: src/Admin/Options.php:76
+msgid "Enable BRAND field"
+msgstr ""
+
+#: src/Admin/Options.php:97
+msgid "Save changes"
+msgstr ""
+
+#: src/Admin/Options.php:107
+msgid "A migration is already running"
+msgstr ""
+
+#: src/Admin/Options.php:112
+msgid "Refresh to check progress"
+msgstr ""
+
+#: src/Admin/Options.php:122
+msgid "Migrate Old Data"
+msgstr ""
+
+#: src/Admin/Order.php:61
+msgid "ShoppingFeed Carrier Details"
+msgstr ""
+
+#: src/Admin/Order.php:78
+msgid "Tracking Number"
+msgstr ""
+
+#: src/Admin/Order.php:87
+msgid "Tracking Link"
+msgstr ""
+
+#: src/Admin/Orders.php:36
+msgid "Market Place"
+msgstr ""
+
+#: src/Admin/Orders.php:37
+msgid "Reference"
+msgstr ""
+
+#: src/Admin/Orders.php:47
+#: src/Admin/Orders.php:52
+msgid "None"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:25
+msgctxt "Taxonomy General Name"
+msgid "Brands"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:26
+msgctxt "Taxonomy Singular Name"
+msgid "Brand"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:27
+msgid "Brands"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:28
+msgid "All Brands"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:29
+msgid "Parent Brand"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:30
+msgid "Parent Brand:"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:31
+msgid "New Brand Name"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:32
+msgid "Add New Brand"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:33
+msgid "Edit Brand"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:34
+msgid "Update Brand"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:35
+msgid "View Brand"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:36
+msgid "Separate items with commas"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:37
+msgid "Add or remove items"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:38
+msgid "Choose from the most used"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:39
+msgid "Popular Brands"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:40
+msgid "Search Brands"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:41
+msgid "Not Found"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:42
+msgid "No brands"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:43
+msgid "Brands list"
+msgstr ""
+
+#: src/Admin/Taxonomies.php:44
+msgid "Brands list navigation"
+msgstr ""
+
+#: src/ShoppingFeedAdvanced.php:58
+msgid "ShoppingFeed plugin must be activated"
+msgstr ""
+
+#: src/ShoppingFeedAdvanced.php:108
+msgid "Settings"
+msgstr ""

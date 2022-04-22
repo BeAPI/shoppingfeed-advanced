@@ -1,113 +1,182 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-07-31 18:30+0200\n"
-"PO-Revision-Date: 2020-07-31 18:31+0200\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/shoppingfeed-"
+"advanced\n"
+"POT-Creation-Date: 2022-04-22T14:08:33+00:00\n"
+"PO-Revision-Date: 2022-04-22 16:18+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4\n"
-"X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;__e;_n\n"
 "X-Poedit-SearchPath-0: shoppingfeed-advanced.php\n"
 "X-Poedit-SearchPath-1: src\n"
 
+#. Plugin Name of the plugin
 #: src/Admin/Options.php:37 src/Admin/Options.php:38
 msgid "ShoppingFeed Advanced"
+msgstr "ShoppingFeed Advanced"
+
+#. Plugin URI of the plugin
+msgid "https://wordpress.org/plugins/shoppingfeed/"
+msgstr "https://wordpress.org/plugins/shoppingfeed/"
+
+#. Description of the plugin
+msgid "Recognize custom fields for ShoppingFeed plugin"
+msgstr ""
+
+#. Author of the plugin
+msgid "Shopping-Feed"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.shopping-feed.com/"
 msgstr ""
 
 #: src/Admin/Options.php:55
 msgid "Options"
-msgstr ""
+msgstr "Réglages"
 
 #: src/Admin/Options.php:63
 msgid "Enable EAN field"
-msgstr ""
+msgstr "Activer le champ EAN"
 
 #: src/Admin/Options.php:76
 msgid "Enable BRAND field"
-msgstr ""
+msgstr "Activer le champ MARQUE"
 
 #: src/Admin/Options.php:97
 msgid "Save changes"
-msgstr ""
+msgstr "Enregistrer les réglages"
 
-#: src/Admin/Options.php:116
+#: src/Admin/Options.php:107
+msgid "A migration is already running"
+msgstr "Une migration est en cours"
+
+#: src/Admin/Options.php:112
+msgid "Refresh to check progress"
+msgstr "Rafraichir pour voir l'avancement"
+
+#: src/Admin/Options.php:122
 msgid "Migrate Old Data"
+msgstr "Migrer les anciennes données"
+
+#: src/Admin/Order.php:61
+msgid "ShoppingFeed Carrier Details"
 msgstr ""
 
-#: src/Admin/Taxonomies.php:28
+#: src/Admin/Order.php:78
+msgid "Tracking Number"
+msgstr "Numéro de suivi"
+
+#: src/Admin/Order.php:87
+msgid "Tracking Link"
+msgstr "Lien de suivi"
+
+#: src/Admin/Orders.php:36
+msgid "Market Place"
+msgstr ""
+
+#: src/Admin/Orders.php:37
+msgid "Reference"
+msgstr "Référence"
+
+#: src/Admin/Orders.php:47 src/Admin/Orders.php:52
+msgid "None"
+msgstr "Aucune"
+
+#: src/Admin/Taxonomies.php:25
+msgctxt "Taxonomy General Name"
 msgid "Brands"
 msgstr "Marques"
 
-#: src/Admin/Taxonomies.php:29
+#: src/Admin/Taxonomies.php:26
+msgctxt "Taxonomy Singular Name"
+msgid "Brand"
+msgstr "Marque"
+
+#: src/Admin/Taxonomies.php:27
+msgid "Brands"
+msgstr "Marques"
+
+#: src/Admin/Taxonomies.php:28
 msgid "All Brands"
 msgstr "Tous les marques"
 
-#: src/Admin/Taxonomies.php:30
+#: src/Admin/Taxonomies.php:29
 msgid "Parent Brand"
 msgstr ""
 
-#: src/Admin/Taxonomies.php:31
+#: src/Admin/Taxonomies.php:30
 msgid "Parent Brand:"
 msgstr ""
 
-#: src/Admin/Taxonomies.php:32
+#: src/Admin/Taxonomies.php:31
 msgid "New Brand Name"
 msgstr ""
 
-#: src/Admin/Taxonomies.php:33
+#: src/Admin/Taxonomies.php:32
 msgid "Add New Brand"
-msgstr ""
+msgstr "Ajouté une nouvelle marque"
+
+#: src/Admin/Taxonomies.php:33
+msgid "Edit Brand"
+msgstr "Modifié la marque"
 
 #: src/Admin/Taxonomies.php:34
-msgid "Edit Brand"
-msgstr ""
+msgid "Update Brand"
+msgstr "Mettre à jour la marque"
 
 #: src/Admin/Taxonomies.php:35
-msgid "Update Brand"
-msgstr ""
+msgid "View Brand"
+msgstr "Voir la marque"
 
 #: src/Admin/Taxonomies.php:36
-msgid "View Brand"
-msgstr ""
-
-#: src/Admin/Taxonomies.php:37
 msgid "Separate items with commas"
 msgstr ""
 
-#: src/Admin/Taxonomies.php:38
+#: src/Admin/Taxonomies.php:37
 msgid "Add or remove items"
 msgstr ""
 
-#: src/Admin/Taxonomies.php:39
+#: src/Admin/Taxonomies.php:38
 msgid "Choose from the most used"
 msgstr ""
 
-#: src/Admin/Taxonomies.php:40
+#: src/Admin/Taxonomies.php:39
 msgid "Popular Brands"
 msgstr ""
 
-#: src/Admin/Taxonomies.php:41
+#: src/Admin/Taxonomies.php:40
 msgid "Search Brands"
 msgstr ""
 
-#: src/Admin/Taxonomies.php:42
+#: src/Admin/Taxonomies.php:41
 msgid "Not Found"
 msgstr ""
 
-#: src/Admin/Taxonomies.php:43
+#: src/Admin/Taxonomies.php:42
 msgid "No brands"
 msgstr ""
 
-#: src/Admin/Taxonomies.php:44
+#: src/Admin/Taxonomies.php:43
 msgid "Brands list"
 msgstr ""
 
-#: src/Admin/Taxonomies.php:45
+#: src/Admin/Taxonomies.php:44
 msgid "Brands list navigation"
 msgstr ""
+
+#: src/ShoppingFeedAdvanced.php:58
+msgid "ShoppingFeed plugin must be activated"
+msgstr "Le plugin ShoppingFeed doit être activé"
+
+#: src/ShoppingFeedAdvanced.php:108
+msgid "Settings"
+msgstr "Réglages"
