@@ -23,7 +23,11 @@ jobs:
           php-version: 7.2
 
       - name: Install PHP dependencies
-        run: composer install --prefer-dist --no-dev -o
+        run: |
+          # Don't include composer installer in WP plugin archive
+          composer remove composer/installers --no-install
+          # Install PHP dependencies
+          composer install --prefer-dist --no-dev -o --ignore-platform-reqs
 
       - name: Build Zip
         run: |
