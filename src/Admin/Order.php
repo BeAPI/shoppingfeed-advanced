@@ -92,6 +92,6 @@ class Order {
 					value="<?php echo esc_attr( $order->get_meta( TRACKING_LINK_FIELD_SLUG ) ); ?>">
 		</p>
 		<?php
-		submit_button();
+		submit_button( '', 'primary', 'shoppingfeed_carrier_details_submit' );
 	}
 }
