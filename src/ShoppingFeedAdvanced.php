@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Class ShoppingFeed to init plugin
  */
-class ShoppingFeedAdvanced {
+final class ShoppingFeedAdvanced {
 
 	/**
 	 * @var ShoppingFeedAdvanced
