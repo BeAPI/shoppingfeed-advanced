@@ -2,6 +2,9 @@
 
 ## Changelog
 
+### 6.0.11 - 15 Nov 2022
+* Fix EAN value missing in feed for product variations.
+
 ### 6.0.10 - 13 Sept 2022
 * PHP 8.0 compatibility fix.
 
