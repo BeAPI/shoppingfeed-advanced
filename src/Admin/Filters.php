@@ -25,9 +25,21 @@ class Filters {
 
 		add_filter(
 			'shopping_feed_custom_ean',
-			function () {
-				return EAN_FIELD_SLUG;
-			}
+			function ( $meta_key, $wc_product = false ) {
+				$meta_key = EAN_FIELD_SLUG;
+
+				// Handle EAN meta key with index for variations
+				if ( $wc_product instanceof \WC_Product_Variation && empty( $wc_product->get_meta( $meta_key ) ) ) {
+					$old_meta_key = ShoppingFeedAdvancedHelper::find_old_variation_ean_meta_key( $wc_product );
+					if ( ! empty( $old_meta_key ) ) {
+						$meta_key = $old_meta_key;
+					}
+				}
+
+				return $meta_key;
+			},
+			10,
+			2
 		);
 	}
 
