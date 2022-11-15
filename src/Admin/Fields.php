@@ -2,6 +2,8 @@
 
 namespace ShoppingFeed\ShoppingFeedWCAdvanced\Admin;
 
+use ShoppingFeed\ShoppingFeedWCAdvanced\ShoppingFeedAdvancedHelper;
+
 // Exit on direct access
 defined( 'ABSPATH' ) || exit;
 
@@ -163,10 +165,15 @@ class Fields {
 	/**
 	 * @param $index int
 	 * @param $variation_data array
-	 * @param $variation \WC_Product_Variation
+	 * @param $variation \WP_Post
 	 */
 	public function fields_product_option_variation( $index, $variation_data, $variation ) {
 		if ( empty( $this->fields ) || empty( $variation_data ) ) {
+			return;
+		}
+
+		$wc_product = wc_get_product( $variation );
+		if ( ! $wc_product ) {
 			return;
 		}
 
@@ -175,9 +182,22 @@ class Fields {
 				continue;
 			}
 
-			$key                    = $field['id'] . '_' . $index;
-			$field['value']         = get_post_meta( $variation->ID, $key, true );
-			$field['id']            = $key;
+			$meta_key = $field['id'];
+			if ( EAN_FIELD_SLUG === $field['id'] ) {
+				$meta_key = EAN_FIELD_SLUG;
+
+				// Handle EAN meta key with index for variations
+				if ( empty( $wc_product->get_meta( $meta_key ) ) ) {
+					$old_meta_key = ShoppingFeedAdvancedHelper::find_old_variation_ean_meta_key( $wc_product );
+					if ( ! empty( $old_meta_key ) ) {
+						$meta_key = $old_meta_key;
+					}
+				}
+			}
+
+			$field_id               = $field['id'] . '_' . $index;
+			$field['value']         = $wc_product->get_meta( $meta_key );
+			$field['id']            = $field_id;
 			$field['class']         = 'short';
 			$field['wrapper_class'] = 'form-row form-row-full form-field';
 			$this->add_field( $field );
