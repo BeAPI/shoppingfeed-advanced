@@ -195,10 +195,12 @@ class Fields {
 			if ( empty( $field['is_variation_option'] ) ) {
 				continue;
 			}
-			$key             = $field['id'] . '_' . $index;
-			$field_post_data = $_POST[ $key ]; //phpcs:ignore
+
+			$meta_key        = $field['id'];
+			$post_data_key   = $field['id'] . '_' . $index;
+			$field_post_data = $_POST[ $post_data_key ]; //phpcs:ignore
 			if ( ! empty( $field_post_data ) ) {
-				$wc_product->update_meta_data( $key, wc_clean( wp_unslash( $field_post_data ) ) );
+				$wc_product->update_meta_data( $meta_key, wc_clean( wp_unslash( $field_post_data ) ) );
 				$wc_product->save_meta_data();
 			}
 		}
