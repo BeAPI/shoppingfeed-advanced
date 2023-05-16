@@ -10,16 +10,12 @@ class Order {
 	public function __construct() {
 		add_action( 'add_meta_boxes', array( $this, 'register_sfa_tracking_details_metabox' ), 100 );
 		add_action( 'save_post', array( $this, 'save_sfa_tracking_details_metabox' ) );
+		add_action( 'save_post', array( $this, 'save_sfa_empty_ean_field' ) );
 	}
 
 	public function save_sfa_tracking_details_metabox( $post_id ) {
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-			return;
-		}
-		if ( empty( $_POST['sfa_tracking_nounce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sfa_tracking_nounce'] ) ), '_sfa_tracking_nounce' ) ) {
-			return;
-		}
-		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		// Check if we can save
+		if ( ! $this->sfa_should_save_post( $post_id ) ) {
 			return;
 		}
 
@@ -40,7 +36,6 @@ class Order {
 	}
 
 	public function register_sfa_tracking_details_metabox() {
-
 		global $post;
 		$screen = get_current_screen();
 		if ( is_null( $screen ) || 'shop_order' !== $screen->post_type ) {
@@ -73,25 +68,68 @@ class Order {
 		}
 		?>
 
-		<p>
-			<label for="sfa_tracking_number">
+        <p>
+            <label for="sfa_tracking_number">
 				<?php esc_html_e( 'Tracking Number', 'shopping-feed-advanced' ); ?>
-			</label>
-			<br>
-			<input type="text" name="<?php echo esc_attr( TRACKING_NUMBER_FIELD_SLUG ); ?>"
-					id="<?php echo esc_attr( TRACKING_NUMBER_FIELD_SLUG ); ?>"
-					value="<?php echo esc_attr( $order->get_meta( TRACKING_NUMBER_FIELD_SLUG ) ); ?>">
-		</p>
-		<p>
-			<label for="sfa_tracking_link">
+            </label>
+            <br>
+            <input type="text" name="<?php echo esc_attr( TRACKING_NUMBER_FIELD_SLUG ); ?>"
+                   id="<?php echo esc_attr( TRACKING_NUMBER_FIELD_SLUG ); ?>"
+                   value="<?php echo esc_attr( $order->get_meta( TRACKING_NUMBER_FIELD_SLUG ) ); ?>">
+        </p>
+        <p>
+            <label for="sfa_tracking_link">
 				<?php esc_html_e( 'Tracking Link', 'shopping-feed-advanced' ); ?>
-			</label>
-			<br>
-			<input type="text" name="<?php echo esc_attr( TRACKING_LINK_FIELD_SLUG ); ?>"
-					id="<?php echo esc_attr( TRACKING_LINK_FIELD_SLUG ); ?>"
-					value="<?php echo esc_attr( $order->get_meta( TRACKING_LINK_FIELD_SLUG ) ); ?>">
-		</p>
+            </label>
+            <br>
+            <input type="text" name="<?php echo esc_attr( TRACKING_LINK_FIELD_SLUG ); ?>"
+                   id="<?php echo esc_attr( TRACKING_LINK_FIELD_SLUG ); ?>"
+                   value="<?php echo esc_attr( $order->get_meta( TRACKING_LINK_FIELD_SLUG ) ); ?>">
+        </p>
 		<?php
 		submit_button( '', 'primary', 'shoppingfeed_carrier_details_submit' );
+	}
+
+	/**
+     * Save the EAN field even if it's empty.
+     * @see https://support.beapi.fr/issues/62938
+     *
+	 * @param $post_id
+	 *
+	 * @return void
+	 */
+	public function save_sfa_empty_ean_field( $post_id ) {
+		// Check if we can save
+		if ( ! $this->sfa_should_save_post( $post_id ) ) {
+			return;
+		}
+
+		// Save only if empty (to bypass WC default)
+		if ( isset( $_POST[ EAN_FIELD_SLUG ] ) && empty( $_POST[ EAN_FIELD_SLUG ] ) ) {
+			update_post_meta(
+				$post_id,
+				EAN_FIELD_SLUG,
+				sanitize_text_field( $_POST[ EAN_FIELD_SLUG ] )
+			);
+		}
+	}
+
+	/**
+     * Check if we can save the SF post
+     *
+	 * @param $post_id
+	 *
+	 * @return bool
+	 */
+	private function sfa_should_save_post( $post_id ) {
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return false;
+		}
+
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return false;
+		}
+
+		return true;
 	}
 }
