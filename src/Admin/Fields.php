@@ -49,13 +49,6 @@ class Fields {
 			10,
 			2
 		);
-		add_action(
-			'save_post',
-			array(
-				$this,
-				'save_empty_ean_field',
-			)
-		);
 	}
 
 	public function set_fields() {
@@ -151,18 +144,16 @@ class Fields {
 		foreach ( $this->fields as $field ) {
 			$field_post_data = $_POST[ $field['id'] ]; //phpcs:ignore
 
-			if ( ! empty( $field_post_data ) ) {
-				if ( ! empty( $field['taxonomy'] ) && taxonomy_exists( $field['taxonomy'] ) ) {
-					$term = get_term( $field_post_data, $field['taxonomy'] );
-					if ( is_wp_error( $term ) || is_null( $term ) ) {
-						continue;
-					}
-					wp_set_object_terms( $wc_product->get_id(), array( $term->term_id ), $field['taxonomy'] );
+			if ( ! empty( $field['taxonomy'] ) && taxonomy_exists( $field['taxonomy'] ) ) {
+				$term = get_term( $field_post_data, $field['taxonomy'] );
+				if ( is_wp_error( $term ) || is_null( $term ) ) {
+					continue;
 				}
-
-				$wc_product->update_meta_data( $field['id'], wc_clean( wp_unslash( $field_post_data ) ) );
-				$wc_product->save_meta_data();
+				wp_set_object_terms( $wc_product->get_id(), array( $term->term_id ), $field['taxonomy'] );
 			}
+
+			$wc_product->update_meta_data( $field['id'], wc_clean( wp_unslash( $field_post_data ) ) );
+			$wc_product->save_meta_data();
 		}
 	}
 
@@ -223,39 +214,9 @@ class Fields {
 			$meta_key        = $field['id'];
 			$post_data_key   = $field['id'] . '_' . $index;
 			$field_post_data = $_POST[ $post_data_key ]; //phpcs:ignore
-			if ( ! empty( $field_post_data ) ) {
-				$wc_product->update_meta_data( $meta_key, wc_clean( wp_unslash( $field_post_data ) ) );
-				$wc_product->save_meta_data();
-			}
-		}
-	}
 
-	/**
-	 * Save the EAN field even if it's empty.
-	 * @see https://support.beapi.fr/issues/62938
-	 *
-	 * @param $post_id
-	 *
-	 * @return void
-	 */
-	public function save_empty_ean_field( $post_id ) {
-		// Check if not doing autosave
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-			return;
-		}
-
-		// Check if current user can edit
-		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			return;
-		}
-
-		// Save only if empty (to bypass WC default)
-		if ( isset( $_POST[ EAN_FIELD_SLUG ] ) && empty( $_POST[ EAN_FIELD_SLUG ] ) ) {
-			update_post_meta(
-				$post_id,
-				EAN_FIELD_SLUG,
-				''
-			);
+			$wc_product->update_meta_data( $meta_key, wc_clean( wp_unslash( $field_post_data ) ) );
+			$wc_product->save_meta_data();
 		}
 	}
 }
