@@ -14,9 +14,6 @@ class Fields {
 
 	public function __construct() {
 
-		// add setting page to check if we acctivate or not fields
-		//add_filter( 'woocommerce_get_settings_pages', array( $this, 'add_settings_page' ) );
-
 		add_action(
 			'woocommerce_product_options_inventory_product_data',
 			array(
@@ -51,6 +48,13 @@ class Fields {
 			),
 			10,
 			2
+		);
+		add_action(
+			'save_post',
+			array(
+				$this,
+				'save_empty_ean_field',
+			)
 		);
 	}
 
@@ -223,6 +227,35 @@ class Fields {
 				$wc_product->update_meta_data( $meta_key, wc_clean( wp_unslash( $field_post_data ) ) );
 				$wc_product->save_meta_data();
 			}
+		}
+	}
+
+	/**
+	 * Save the EAN field even if it's empty.
+	 * @see https://support.beapi.fr/issues/62938
+	 *
+	 * @param $post_id
+	 *
+	 * @return void
+	 */
+	public function save_empty_ean_field( $post_id ) {
+		// Check if not doing autosave
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+
+		// Check if current user can edit
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+
+		// Save only if empty (to bypass WC default)
+		if ( isset( $_POST[ EAN_FIELD_SLUG ] ) && empty( $_POST[ EAN_FIELD_SLUG ] ) ) {
+			update_post_meta(
+				$post_id,
+				EAN_FIELD_SLUG,
+				''
+			);
 		}
 	}
 }
