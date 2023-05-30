@@ -14,9 +14,6 @@ class Fields {
 
 	public function __construct() {
 
-		// add setting page to check if we acctivate or not fields
-		//add_filter( 'woocommerce_get_settings_pages', array( $this, 'add_settings_page' ) );
-
 		add_action(
 			'woocommerce_product_options_inventory_product_data',
 			array(
@@ -145,20 +142,24 @@ class Fields {
 		}
 
 		foreach ( $this->fields as $field ) {
+			if ( ! isset( $_POST[ $field['id'] ] ) || ! isset( $field['taxonomy'] ) ) {
+				continue;
+			}
+
+			if ( ! taxonomy_exists( $field['taxonomy'] ) ) {
+				continue;
+			}
+
 			$field_post_data = $_POST[ $field['id'] ]; //phpcs:ignore
 
-			if ( ! empty( $field_post_data ) ) {
-				if ( ! empty( $field['taxonomy'] ) && taxonomy_exists( $field['taxonomy'] ) ) {
-					$term = get_term( $field_post_data, $field['taxonomy'] );
-					if ( is_wp_error( $term ) || is_null( $term ) ) {
-						continue;
-					}
-					wp_set_object_terms( $wc_product->get_id(), array( $term->term_id ), $field['taxonomy'] );
-				}
-
-				$wc_product->update_meta_data( $field['id'], wc_clean( wp_unslash( $field_post_data ) ) );
-				$wc_product->save_meta_data();
+			$term = get_term( $field_post_data, $field['taxonomy'] );
+			if ( is_wp_error( $term ) || is_null( $term ) ) {
+				continue;
 			}
+			wp_set_object_terms( $wc_product->get_id(), array( $term->term_id ), $field['taxonomy'] );
+
+			$wc_product->update_meta_data( $field['id'], wc_clean( wp_unslash( $field_post_data ) ) );
+			$wc_product->save_meta_data();
 		}
 	}
 
@@ -219,10 +220,9 @@ class Fields {
 			$meta_key        = $field['id'];
 			$post_data_key   = $field['id'] . '_' . $index;
 			$field_post_data = $_POST[ $post_data_key ]; //phpcs:ignore
-			if ( ! empty( $field_post_data ) ) {
-				$wc_product->update_meta_data( $meta_key, wc_clean( wp_unslash( $field_post_data ) ) );
-				$wc_product->save_meta_data();
-			}
+
+			$wc_product->update_meta_data( $meta_key, wc_clean( wp_unslash( $field_post_data ) ) );
+			$wc_product->save_meta_data();
 		}
 	}
 }
