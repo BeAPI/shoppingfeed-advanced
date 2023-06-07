@@ -142,15 +142,21 @@ class Fields {
 		}
 
 		foreach ( $this->fields as $field ) {
+			if ( ! isset( $_POST[ $field['id'] ] ) || ! isset( $field['taxonomy'] ) ) {
+				continue;
+			}
+
+			if ( ! taxonomy_exists( $field['taxonomy'] ) ) {
+				continue;
+			}
+
 			$field_post_data = $_POST[ $field['id'] ]; //phpcs:ignore
 
-			if ( ! empty( $field['taxonomy'] ) && taxonomy_exists( $field['taxonomy'] ) ) {
-				$term = get_term( $field_post_data, $field['taxonomy'] );
-				if ( is_wp_error( $term ) || is_null( $term ) ) {
-					continue;
-				}
-				wp_set_object_terms( $wc_product->get_id(), array( $term->term_id ), $field['taxonomy'] );
+			$term = get_term( $field_post_data, $field['taxonomy'] );
+			if ( is_wp_error( $term ) || is_null( $term ) ) {
+				continue;
 			}
+			wp_set_object_terms( $wc_product->get_id(), array( $term->term_id ), $field['taxonomy'] );
 
 			$wc_product->update_meta_data( $field['id'], wc_clean( wp_unslash( $field_post_data ) ) );
 			$wc_product->save_meta_data();
