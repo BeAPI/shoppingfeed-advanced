@@ -145,20 +145,38 @@ class Fields {
 		}
 
 		foreach ( $this->fields as $field ) {
+			// If id is not set in $_POST, skip
+			if ( ! isset( $_POST[ $field['id'] ] ) ) {
+				continue;
+			}
+
 			$field_post_data = $_POST[ $field['id'] ]; //phpcs:ignore
 
-			if ( ! empty( $field_post_data ) ) {
+			// If ID is set but empty in $_POST, empty the field
+			if ( empty( $field_post_data ) ) {
+				// Set an empty array of terms for the product if the field is a taxonomy
 				if ( ! empty( $field['taxonomy'] ) && taxonomy_exists( $field['taxonomy'] ) ) {
-					$term = get_term( $field_post_data, $field['taxonomy'] );
-					if ( is_wp_error( $term ) || is_null( $term ) ) {
-						continue;
-					}
-					wp_set_object_terms( $wc_product->get_id(), array( $term->term_id ), $field['taxonomy'] );
+					wp_set_object_terms( $wc_product->get_id(), array(), $field['taxonomy'] );
 				}
 
-				$wc_product->update_meta_data( $field['id'], wc_clean( wp_unslash( $field_post_data ) ) );
+				// Empty meta data
+				$wc_product->update_meta_data( $field['id'], '' );
 				$wc_product->save_meta_data();
+				continue;
 			}
+
+			// If the field is a taxonomy, set the product terms
+			if ( ! empty( $field['taxonomy'] ) && taxonomy_exists( $field['taxonomy'] ) ) {
+				$term = get_term( $field_post_data, $field['taxonomy'] );
+				if ( is_wp_error( $term ) || is_null( $term ) ) {
+					continue;
+				}
+				wp_set_object_terms( $wc_product->get_id(), array( $term->term_id ), $field['taxonomy'] );
+			}
+
+			// Save the field as meta data
+			$wc_product->update_meta_data( $field['id'], wc_clean( wp_unslash( $field_post_data ) ) );
+			$wc_product->save_meta_data();
 		}
 	}
 
@@ -218,11 +236,15 @@ class Fields {
 
 			$meta_key        = $field['id'];
 			$post_data_key   = $field['id'] . '_' . $index;
-			$field_post_data = $_POST[ $post_data_key ]; //phpcs:ignore
-			if ( ! empty( $field_post_data ) ) {
-				$wc_product->update_meta_data( $meta_key, wc_clean( wp_unslash( $field_post_data ) ) );
-				$wc_product->save_meta_data();
+
+			if ( ! isset( $_POST[ $post_data_key ] ) ) {
+				continue;
 			}
+
+			$field_post_data = $_POST[ $post_data_key ]; //phpcs:ignore
+
+			$wc_product->update_meta_data( $meta_key, wc_clean( wp_unslash( $field_post_data ) ) );
+			$wc_product->save_meta_data();
 		}
 	}
 }
