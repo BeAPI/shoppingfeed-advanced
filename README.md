@@ -2,6 +2,10 @@
 
 ## Changelog
 
+### 6.0.12 - 16 Jun 2023
+
+* Fix EAN not saving if value is empty.
+
 ### 6.0.11 - 15 Nov 2022
 * Fix EAN value missing in feed for product variations.
 
