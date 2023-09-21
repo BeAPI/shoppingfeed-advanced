@@ -23,19 +23,24 @@ class Order {
 			return;
 		}
 
+		$order = wc_get_order( $post_id );
+		if ( false === $order ) {
+			return;
+		}
 		if ( isset( $_POST[ TRACKING_NUMBER_FIELD_SLUG ] ) ) {
-			update_post_meta(
-				$post_id,
+			$order->update_meta_data(
 				TRACKING_NUMBER_FIELD_SLUG,
 				sanitize_text_field( wp_unslash( $_POST[ TRACKING_NUMBER_FIELD_SLUG ] ) )
 			);
 		}
 		if ( isset( $_POST[ TRACKING_LINK_FIELD_SLUG ] ) ) {
-			update_post_meta(
-				$post_id,
+			$order->update_meta_data(
 				TRACKING_LINK_FIELD_SLUG,
 				sanitize_text_field( wp_unslash( $_POST[ TRACKING_LINK_FIELD_SLUG ] ) )
 			);
+		}
+		if ( isset( $_POST[ TRACKING_NUMBER_FIELD_SLUG ] ) || isset( $_POST[ TRACKING_LINK_FIELD_SLUG ] ) ) {
+			$order->save();
 		}
 	}
 

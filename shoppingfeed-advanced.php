@@ -44,4 +44,4 @@ function init() {
 	ShoppingFeedAdvanced::get_instance();
 }
 
-\add_action( 'plugins_loaded', __NAMESPACE__ . '\\init' );
+\add_action( 'init', __NAMESPACE__ . '\\init', 20 );
