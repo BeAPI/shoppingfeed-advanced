@@ -18,7 +18,7 @@ class Orders {
 
 	public function __construct() {
 
-		if ( \wc_get_container()->get( CustomOrdersTableController::class )->custom_orders_table_usage_is_enabled() ) {
+		if ( class_exists( 'Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController' ) && \wc_get_container()->get( CustomOrdersTableController::class )->custom_orders_table_usage_is_enabled() ) {
 			$screen = \wc_get_page_screen_id( 'shop_order' );
 			add_filter( "manage_{$screen}_columns", [ $this, 'custom_shop_order_column' ] );
 			add_action( "manage_{$screen}_custom_column", [ $this, 'custom_orders_list_column_content' ], 10, 2 );
