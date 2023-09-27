@@ -51,22 +51,25 @@ class Orders {
 	}
 
 	// Adding custom fields meta data for each new column (example)
-	public function custom_orders_list_column_content( $column, $post_id ) {
-		if ( function_exists( 'wc_get_order' ) ) {
-			if ( $this->channel_name_meta === $column ) {
-				$order = wc_get_order( $post_id );
-				if ( false !== $order ) {
-					$sf_reference = $order->get_meta( $this->channel_name_meta, true );
-					echo ! empty( $sf_reference ) ? esc_html( $sf_reference ) : '<small>(<em>' . esc_html__( 'None', 'shopping-feed-advanced' ) . '</em>)</small>';
-				}
-			}
-			if ( $this->sf_reference_meta === $column ) {
-				$order = wc_get_order( $post_id );
-				if ( false !== $order ) {
-					$sf_reference = get_post_meta( $post_id, $this->sf_reference_meta, true );
-					echo ! empty( $sf_reference ) ? esc_html( $sf_reference ) : '<small>(<em>' . esc_html__( 'None', 'shopping-feed-advanced' ) . '</em>)</small>';
-				}
-			}
+	public function custom_orders_list_column_content( $column, $post_ID_or_order_object ) {
+		// Handle the cases of param being and id or a WC_Order object
+		$order = false;
+		if ( $post_ID_or_order_object instanceof \WC_Order ) {
+			$order = $post_ID_or_order_object;
+		} elseif ( is_int( $post_ID_or_order_object ) && function_exists( 'wc_get_order' ) ) {
+			$order = wc_get_order( $post_ID_or_order_object );
+		}
+		if ( false === $order ) {
+			return;
+		}
+
+		if ( $this->channel_name_meta === $column ) {
+			$sf_name = $order->get_meta( $this->channel_name_meta, true );
+			echo ! empty( $sf_name ) ? esc_html( $sf_name ) : '<small>(<em>' . esc_html__( 'None', 'shopping-feed-advanced' ) . '</em>)</small>';
+		}
+		if ( $this->sf_reference_meta === $column ) {
+			$sf_reference = $order->get_meta( $this->sf_reference_meta, true );
+			echo ! empty( $sf_reference ) ? esc_html( $sf_reference ) : '<small>(<em>' . esc_html__( 'None', 'shopping-feed-advanced' ) . '</em>)</small>';
 		}
 	}
 }
