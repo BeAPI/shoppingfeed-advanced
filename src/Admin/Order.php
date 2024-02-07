@@ -3,6 +3,8 @@
 namespace ShoppingFeed\ShoppingFeedWCAdvanced\Admin;
 
 // Exit on direct access
+use Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController;
+
 defined( 'ABSPATH' ) || exit;
 
 class Order {
@@ -23,31 +25,58 @@ class Order {
 			return;
 		}
 
+		$order = wc_get_order( $post_id );
+		if ( false === $order ) {
+			return;
+		}
 		if ( isset( $_POST[ TRACKING_NUMBER_FIELD_SLUG ] ) ) {
-			update_post_meta(
-				$post_id,
+			$order->update_meta_data(
 				TRACKING_NUMBER_FIELD_SLUG,
 				sanitize_text_field( wp_unslash( $_POST[ TRACKING_NUMBER_FIELD_SLUG ] ) )
 			);
 		}
 		if ( isset( $_POST[ TRACKING_LINK_FIELD_SLUG ] ) ) {
-			update_post_meta(
-				$post_id,
+			$order->update_meta_data(
 				TRACKING_LINK_FIELD_SLUG,
 				sanitize_text_field( wp_unslash( $_POST[ TRACKING_LINK_FIELD_SLUG ] ) )
 			);
+		}
+		if ( isset( $_POST[ TRACKING_NUMBER_FIELD_SLUG ] ) || isset( $_POST[ TRACKING_LINK_FIELD_SLUG ] ) ) {
+			remove_action( 'save_post', array( $this, 'save_sfa_tracking_details_metabox' ) );
+			$order->save();
+			add_action( 'save_post', array( $this, 'save_sfa_tracking_details_metabox' ) );
 		}
 	}
 
 	public function register_sfa_tracking_details_metabox() {
 
-		global $post;
-		$screen = get_current_screen();
-		if ( is_null( $screen ) || 'shop_order' !== $screen->post_type ) {
-			return;
+		if ( class_exists( 'Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController' ) && wc_get_container()->get( CustomOrdersTableController::class )->custom_orders_table_usage_is_enabled() ) {
+			/**
+			 * If WC is using the new tables, returns the screen id or empty
+			 */
+			$screen = wc_get_page_screen_id( 'shop-order' );
+			if ( empty( $screen ) ) {
+				return;
+			}
+			if ( ! isset( $_GET['id'], $_GET['page'] ) || ! is_numeric( $_GET['id'] ) || 'wc-orders' !== $_GET['page']
+			) {
+				return;
+			}
+			$post_id = (int) $_GET['id'];
+		} else {
+			/**
+			 * If not, we use the legacy test
+			 */
+			$screen = get_current_screen();
+			if ( is_null( $screen ) || 'shop_order' !== $screen->post_type ) {
+				return;
+			}
+			global $post;
+			$post_id = $post->ID;
 		}
 
-		$order = wc_get_order( $post );
+		$order = wc_get_order( $post_id );
+
 		if ( false === $order ) {
 			return;
 		}
@@ -60,7 +89,7 @@ class Order {
 			'sfa-carrier_fields',
 			__( 'ShoppingFeed Carrier Details', 'shopping-feed-advanced' ),
 			array( $this, 'render' ),
-			'shop_order',
+			$screen,
 			'side'
 		);
 	}
