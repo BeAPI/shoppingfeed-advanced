@@ -3,7 +3,7 @@
 ## Changelog
 
 ### 6.0.13 - 07 feb 2024
-* ShoppingFeed Advanced is HPOS compatible \0/
+* ShoppingFeed Advanced is HPOS compatible.
 
 ### 6.0.12 - 16 Jun 2023
 * Fix EAN not saving if value is empty.
