@@ -11,7 +11,7 @@ class Order {
 
 	public function __construct() {
 		add_action( 'add_meta_boxes', array( $this, 'register_sfa_tracking_details_metabox' ), 100 );
-		add_action( 'save_post', array( $this, 'save_sfa_tracking_details_metabox' ) );
+		add_action( 'woocommerce_process_shop_order_meta', array( $this, 'save_sfa_tracking_details_metabox' ) );
 	}
 
 	public function save_sfa_tracking_details_metabox( $post_id ) {
@@ -42,9 +42,7 @@ class Order {
 			);
 		}
 		if ( isset( $_POST[ TRACKING_NUMBER_FIELD_SLUG ] ) || isset( $_POST[ TRACKING_LINK_FIELD_SLUG ] ) ) {
-			remove_action( 'save_post', array( $this, 'save_sfa_tracking_details_metabox' ) );
 			$order->save();
-			add_action( 'save_post', array( $this, 'save_sfa_tracking_details_metabox' ) );
 		}
 	}
 
