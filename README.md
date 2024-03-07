@@ -2,6 +2,9 @@
 
 ## Changelog
 
+### 6.0.14 - 07 mar 2024
+* Fix tracking data metabox failing to save in HPOS mode.
+
 ### 6.0.13 - 07 feb 2024
 * ShoppingFeed Advanced is HPOS compatible.
 
