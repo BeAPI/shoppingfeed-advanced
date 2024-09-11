@@ -2,10 +2,15 @@
 
 ## Changelog
 
-### 6.0.14 - 07 mar 2024
+### 6.0.15 - 11 Sept 2024
+* Fix possible fatal error.
+* Fix "Brand" taxonomy not correctly registered after version 6.0.13.
+* Fix PHP warnings in admin option page.
+
+### 6.0.14 - 07 Mar 2024
 * Fix tracking data metabox failing to save in HPOS mode.
 
-### 6.0.13 - 07 feb 2024
+### 6.0.13 - 07 Feb 2024
 * ShoppingFeed Advanced is HPOS compatible.
 
 ### 6.0.12 - 16 Jun 2023
