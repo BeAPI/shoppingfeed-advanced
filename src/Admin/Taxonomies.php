@@ -10,11 +10,8 @@ class Taxonomies {
 	const BRAND_TAXONOMY_SLUG = 'product_brand';
 
 	public function __construct() {
-
-		add_action( 'init', array( $this, 'add_brand' ) );
-
+		add_action( 'init', array( $this, 'add_brand' ), 50 );
 	}
-
 
 	public function add_brand() {
 		if ( empty( ShoppingFeedAdvancedHelper::get_sfa_settings( BRAND_FIELD_SLUG ) ) ) {
@@ -48,7 +45,7 @@ class Taxonomies {
 			'hierarchical'      => false,
 			'public'            => true,
 			'show_ui'           => true,
-			'show_admin_column' => false,
+			'show_admin_column' => true,
 			'show_in_nav_menus' => false,
 			'show_tagcloud'     => false,
 			'meta_box_cb'       => false,
@@ -59,5 +56,4 @@ class Taxonomies {
 		}
 		register_taxonomy( self::BRAND_TAXONOMY_SLUG, array( 'product' ), $args );
 	}
-
 }

@@ -17,21 +17,21 @@ class Orders {
 	private $sf_reference_meta;
 
 	public function __construct() {
+		add_action( 'admin_init', array( $this, 'register_columns' ) );
 
+		$this->channel_name_meta = Query::WC_META_SF_CHANNEL_NAME;
+		$this->sf_reference_meta = Query::WC_META_SF_REFERENCE;
+	}
+
+	public function register_columns() {
 		if ( class_exists( 'Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController' ) && \wc_get_container()->get( CustomOrdersTableController::class )->custom_orders_table_usage_is_enabled() ) {
 			$screen = \wc_get_page_screen_id( 'shop_order' );
 			add_filter( "manage_{$screen}_columns", [ $this, 'custom_shop_order_column' ] );
 			add_action( "manage_{$screen}_custom_column", [ $this, 'custom_orders_list_column_content' ], 10, 2 );
 		} else {
 			add_filter( 'manage_edit-shop_order_columns', [ $this, 'custom_shop_order_column' ] );
-			add_action( 'manage_shop_order_posts_custom_column', [
-				$this,
-				'custom_orders_list_column_content',
-			], 10, 2 );
+			add_action( 'manage_shop_order_posts_custom_column', [ $this, 'custom_orders_list_column_content' ], 10, 2 );
 		}
-
-		$this->channel_name_meta = Query::WC_META_SF_CHANNEL_NAME;
-		$this->sf_reference_meta = Query::WC_META_SF_REFERENCE;
 	}
 
 	public function custom_shop_order_column( $columns ) {

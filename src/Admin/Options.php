@@ -118,7 +118,7 @@ class Options {
 				?>
 				<input type="hidden" name="action" value="sfa_migrate">
 				<?php
-				if ( 'pending' !== $migration['status'] && 'in-progress' !== $migration['status'] ) {
+				if ( ! isset( $migration['status'] ) || ! in_array( $migration['status'], [ 'pending', 'in-progress' ], true ) ) {
 					submit_button( __( 'Migrate Old Data', 'shopping-feed-advanced' ) );
 				}
 				?>
